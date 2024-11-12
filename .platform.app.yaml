@@ -1,12 +1,11 @@
 name: afsy
 
-type: php:8.0
+type: php:8.2
 
 runtime:
     extensions:
         - apcu
         - mbstring
-
 
 build:
     flavor: none
@@ -36,14 +35,6 @@ hooks:
         (>&2 symfony-deploy)
 
 crons:
-    snapshot:
-        # everyday at 5AM
-        spec: 0 5 * * *
-        cmd: |
-            # only snapshot the master environment, aka production
-            if [ "$SYMFONY_BRANCH" = master ]; then
-                croncape symfony env:snapshot:create --no-wait
-            fi
     renewcert:
         # Force a redeploy at 10 am (UTC) on the 1st and 15th of every month.
         # for the master branch, aka production
